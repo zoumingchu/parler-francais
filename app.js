@@ -813,7 +813,7 @@ var hfLimit = 200;
 var hfQuery = '';
 var lookupQuery = '';
 
-var viewTitles = { learn: '学习', practice: '练习', words: '单词本', highfreq: '高频词', lookup: '查单词', stats: '统计' };
+var viewTitles = { learn: '学习', practice: '练习', words: '单词本', lookup: '查单词', stats: '统计' };
 
 function showView(name) {
   currentView = name;
@@ -827,7 +827,6 @@ function showView(name) {
   if (name === 'learn') renderLearn();
   if (name === 'practice') renderPractice();
   if (name === 'words') renderWords();
-  if (name === 'highfreq') renderHighfreq();
   if (name === 'lookup') renderLookup();
   if (name === 'stats') renderStats();
   window.scrollTo(0, 0);
@@ -973,7 +972,8 @@ function renderWords() {
     units.map(function (u) {
       return '<button class="chip-btn' + (wordUnit === u.id ? ' active' : '') + '" data-unit="' + u.id + '">' + esc(u.title) + '</button>';
     }).join('') +
-    '<button class="chip-btn' + (wordUnit === 'ext' ? ' active' : '') + '" data-unit="ext">扩展词库</button>';
+    '<button class="chip-btn' + (wordUnit === 'ext' ? ' active' : '') + '" data-unit="ext">扩展词库</button>' +
+    '<button class="chip-btn' + (wordUnit === 'hf' ? ' active' : '') + '" data-unit="hf">高频词（' + highFreqWords.length + '）</button>';
   var q = wordQuery.trim().toLowerCase();
   function matches(w) {
     return !q ||
@@ -985,6 +985,8 @@ function renderWords() {
   var items;
   if (wordUnit === 'ext') {
     items = extWords.filter(matches);
+  } else if (wordUnit === 'hf') {
+    items = highFreqWords.filter(matches);
   } else if (wordUnit === 'all') {
     items = allWords.filter(matches).concat(extWords.filter(matches));
   } else {
@@ -996,7 +998,8 @@ function renderWords() {
     var isExt = w.unitId === 'ext';
     var rec = state.words[w.id];
     var badge;
-    if (w.hfRank) badge = '<span class="word-badge hf">高频 #' + w.hfRank + '</span>';
+    if (w.unitId === 'hf') badge = '<span class="word-badge hf">#' + w.rank + '</span>';
+    else if (w.hfRank) badge = '<span class="word-badge hf">高频 #' + w.hfRank + '</span>';
     else if (isExt) badge = '<span class="word-badge ext">扩展</span>';
     else if (rec && rec.learned) badge = '<span class="word-badge learned">已掌握</span>';
     else if (rec && rec.seen) badge = '<span class="word-badge learning">学习中</span>';
