@@ -725,7 +725,7 @@ function defaultState() {
     words: {},
     history: {},
     placement: { best: 0, takenAt: null },
-    settings: { autoSpeak: true, sound: true, rate: 0.9 }
+    settings: { autoSpeak: true, sound: true, rate: 0.9, font: 'default' }
   };
 }
 
@@ -787,6 +787,15 @@ function loadState() {
   return defaultState();
 }
 
+var FONT_OPTIONS = [
+  { id: 'default', name: '默认字体', stack: '' },
+  { id: 'cute', name: '可爱手写', stack: '"ZCOOL KuaiLe", "Yuanti SC", "PingFang SC", sans-serif' },
+  { id: 'brush', name: '毛笔风', stack: '"Ma Shan Zheng", "STKaiti", "KaiTi", serif' },
+  { id: 'modern', name: '现代黑体', stack: '"Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif' },
+  { id: 'rounded', name: '圆润', stack: '"Yuanti SC", "YouYuan", "Microsoft YaHei", sans-serif' },
+  { id: 'kai', name: '楷体', stack: '"STKaiti", "KaiTi", "SimSun", serif' }
+];
+
 var state = loadState();
 state = Object.assign(defaultState(), state || {});
 state.settings = Object.assign({ autoSpeak: true, sound: true, rate: 0.9 }, state.settings || {});
@@ -794,6 +803,17 @@ state.lessons = state.lessons || {};
 state.words = state.words || {};
 state.history = state.history || {};
 if (!state.placement) state.placement = { best: 0, takenAt: null };
+applyFont();
+
+function applyFont() {
+  var id = state.settings && state.settings.font || 'default';
+  var opt = null;
+  for (var i = 0; i < FONT_OPTIONS.length; i++) {
+    if (FONT_OPTIONS[i].id === id) { opt = FONT_OPTIONS[i]; break; }
+  }
+  if (!opt) opt = FONT_OPTIONS[0];
+  document.documentElement.style.setProperty('--app-font', opt.stack || 'inherit');
+}
 
 function save() {
   try {
@@ -1445,6 +1465,7 @@ function openSettings() {
   $('#settingSound').checked = !!state.settings.sound;
   $('#settingRate').value = String(state.settings.rate);
   $('#rateValue').textContent = state.settings.rate + 'x';
+  $('#settingFont').value = state.settings.font || 'default';
   $('#settingsOverlay').classList.remove('hidden');
   $('#settingsOverlay').setAttribute('aria-hidden', 'false');
 }
@@ -2599,6 +2620,22 @@ function bindStatic() {
     $('#rateValue').textContent = state.settings.rate + 'x';
     save();
   });
+  $('#settingFont').addEventListener('change', function (e) {
+    state.settings.font = e.target.value;
+    applyFont();
+    save();
+  });
+  var installBtn = $('#installBtn');
+  if (installBtn) {
+    installBtn.addEventListener('click', function () {
+      if (!deferredInstall) return;
+      deferredInstall.prompt();
+      deferredInstall.userChoice.then(function () {
+        installBtn.classList.add('hidden');
+        deferredInstall = null;
+      });
+    });
+  }
   $('#resetBtn').addEventListener('click', function () {
     if (window.confirm('确定清空当前用户的学习记录？')) {
       if (currentProfileId) localStorage.removeItem(profileStateKey(currentProfileId));
@@ -2616,6 +2653,16 @@ function bindStatic() {
   });
 }
 
+var deferredInstall = null;
+window.addEventListener('beforeinstallprompt', function (e) {
+  e.preventDefault();
+  deferredInstall = e;
+  var b = $('#installBtn');
+  if (b) b.classList.remove('hidden');
+  var h = $('#installHint');
+  if (h) h.classList.add('hidden');
+});
+
 function boot() {
   bindStatic();
   showView('learn');
@@ -2623,6 +2670,9 @@ function boot() {
     if ('speechSynthesis' in window) {
       speechSynthesis.getVoices();
       speechSynthesis.onvoiceschanged = function () { speechSynthesis.getVoices(); };
+    }
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js').catch(function () {});
     }
   } catch (err) {}
 }
