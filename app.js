@@ -788,7 +788,7 @@ function loadState() {
 }
 
 var FONT_OPTIONS = [
-  { id: 'default', name: '默认字体', stack: '' },
+  { id: 'default', name: '默认字体', stack: '"Segoe UI", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif' },
   { id: 'cute', name: '可爱手写', stack: '"ZCOOL KuaiLe", "Yuanti SC", "PingFang SC", sans-serif' },
   { id: 'brush', name: '毛笔风', stack: '"Ma Shan Zheng", "STKaiti", "KaiTi", serif' },
   { id: 'modern', name: '现代黑体', stack: '"Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif' },
