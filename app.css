@@ -868,3 +868,22 @@ button { font: inherit; color: inherit; }
 
 .speak-level { height: 12px; border-radius: 999px; background: var(--surface-2); overflow: hidden; margin-bottom: 10px; }
 .speak-level span { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--accent-2), var(--accent-3)); transition: width .1s; }
+
+.courses-entry {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 22px 0 6px;
+  padding: 16px 18px;
+  border: 1px solid rgba(217, 108, 159, .35);
+  background: rgba(217, 108, 159, .07);
+  border-radius: 8px;
+}
+.courses-entry-icon { width: 44px; height: 44px; border-radius: 8px; background: rgba(217, 108, 159, .12); color: #d96c9f; display: flex; align-items: center; justify-content: center; flex: none; }
+.courses-entry-icon svg { width: 22px; height: 22px; }
+.courses-entry-copy { flex: 1; min-width: 0; }
+.courses-entry-copy h3 { margin: 0 0 2px; font-size: 16px; }
+@media (max-width: 560px) {
+  .courses-entry { flex-wrap: wrap; }
+  .courses-entry .btn { width: 100%; }
+}
