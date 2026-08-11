@@ -644,15 +644,66 @@ function defaultState() {
   };
 }
 
-var state = defaultState();
-try {
-  var raw = localStorage.getItem(LS_KEY);
-  if (raw) {
-    var parsed = JSON.parse(raw);
-    state = Object.assign(defaultState(), parsed);
+var PROFILES_KEY = 'parler-profiles-v1';
+var CURRENT_KEY = 'parler-current-v1';
+function profileStateKey(id) { return 'parler-state-' + id; }
+function hashPin(pin) {
+  var h = 2166136261;
+  var s = String(pin || '');
+  for (var i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 16777619);
   }
-} catch (err) {}
+  return (h >>> 0).toString(16);
+}
+function loadProfilesMeta() {
+  try {
+    var m = JSON.parse(localStorage.getItem(PROFILES_KEY));
+    if (m && Array.isArray(m.profiles)) return m;
+  } catch (err) {}
+  return { profiles: [], current: null };
+}
+function saveProfilesMeta(meta) {
+  try {
+    localStorage.setItem(PROFILES_KEY, JSON.stringify(meta));
+    localStorage.setItem(CURRENT_KEY, meta.current || '');
+  } catch (err) {}
+}
+var profileList = [];
+var currentProfileId = null;
 
+function loadState() {
+  var meta = loadProfilesMeta();
+  profileList = meta.profiles;
+  if (!profileList.length) {
+    var oldState = null;
+    try {
+      var oldRaw = localStorage.getItem(LS_KEY);
+      if (oldRaw) oldState = JSON.parse(oldRaw);
+    } catch (err) {}
+    var first = { id: 'local', name: '本地用户', pin: hashPin('0000'), createdAt: Date.now() };
+    profileList.push(first);
+    meta.profiles = profileList;
+    meta.current = first.id;
+    saveProfilesMeta(meta);
+    currentProfileId = first.id;
+    if (oldState) {
+      try { localStorage.setItem(profileStateKey(first.id), JSON.stringify(oldState)); } catch (err) {}
+      return oldState;
+    }
+    return defaultState();
+  }
+  currentProfileId = meta.current || null;
+  if (!currentProfileId) return defaultState();
+  try {
+    var raw = localStorage.getItem(profileStateKey(currentProfileId));
+    if (raw) return JSON.parse(raw);
+  } catch (err) {}
+  return defaultState();
+}
+
+var state = loadState();
+state = Object.assign(defaultState(), state || {});
 state.settings = Object.assign({ autoSpeak: true, sound: true, rate: 0.9 }, state.settings || {});
 state.lessons = state.lessons || {};
 state.words = state.words || {};
@@ -660,7 +711,66 @@ state.history = state.history || {};
 if (!state.placement) state.placement = { best: 0, takenAt: null };
 
 function save() {
-  try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch (err) {}
+  try {
+    if (currentProfileId) {
+      localStorage.setItem(profileStateKey(currentProfileId), JSON.stringify(state));
+    } else {
+      localStorage.setItem(LS_KEY, JSON.stringify(state));
+    }
+  } catch (err) {}
+}
+
+function currentProfile() {
+  for (var i = 0; i < profileList.length; i++) {
+    if (profileList[i].id === currentProfileId) return profileList[i];
+  }
+  return null;
+}
+
+function switchToProfile(id) {
+  var meta = loadProfilesMeta();
+  currentProfileId = id;
+  meta.current = id;
+  saveProfilesMeta(meta);
+  state = defaultState();
+  try {
+    var raw = localStorage.getItem(profileStateKey(id));
+    if (raw) state = Object.assign(defaultState(), JSON.parse(raw));
+  } catch (err) {}
+  state.settings = Object.assign({ autoSpeak: true, sound: true, rate: 0.9 }, state.settings || {});
+  state.lessons = state.lessons || {};
+  state.words = state.words || {};
+  state.history = state.history || {};
+  if (!state.placement) state.placement = { best: 0, takenAt: null };
+  save();
+}
+
+function loginProfile(id, pin) {
+  for (var i = 0; i < profileList.length; i++) {
+    if (profileList[i].id === id && profileList[i].pin === hashPin(pin)) {
+      switchToProfile(id);
+      return true;
+    }
+  }
+  return false;
+}
+
+function createProfile(name, pin) {
+  var meta = loadProfilesMeta();
+  var id = 'p' + Date.now().toString(36) + Math.floor(Math.random() * 1e6).toString(36);
+  meta.profiles.push({ id: id, name: name, pin: hashPin(pin), createdAt: Date.now() });
+  profileList = meta.profiles;
+  switchToProfile(id);
+  return id;
+}
+
+function logoutProfile() {
+  var meta = loadProfilesMeta();
+  meta.current = null;
+  saveProfilesMeta(meta);
+  currentProfileId = null;
+  state = defaultState();
+  save();
 }
 
 function $(sel) { return document.querySelector(sel); }
@@ -879,6 +989,8 @@ function renderTopbar() {
   $('#streakPill').innerHTML = '<i data-lucide="flame"></i>' + currentStreak() + ' 天';
   $('#sideXp').innerHTML = '<i data-lucide="star"></i><span>' + state.xp + ' XP</span>';
   $('#sideStreak').innerHTML = '<i data-lucide="flame"></i><span>' + currentStreak() + ' 天</span>';
+  var prof = currentProfile();
+  $('#profileName').textContent = prof ? prof.name : '访客';
   lucide.createIcons();
 }
 
@@ -2245,9 +2357,119 @@ function spawnConfetti() {
   }
 }
 
+var profileMode = 'login';
+var profileLoginTarget = null;
+
+function openProfileModal() {
+  profileMode = 'login';
+  profileLoginTarget = null;
+  renderProfileModal();
+  $('#profileOverlay').classList.remove('hidden');
+  $('#profileOverlay').setAttribute('aria-hidden', 'false');
+}
+
+function closeProfileModal() {
+  $('#profileOverlay').classList.add('hidden');
+  $('#profileOverlay').setAttribute('aria-hidden', 'true');
+}
+
+function setProfileMsg(text) {
+  var m = $('#profileMsg');
+  if (m) { m.textContent = text; m.classList.remove('hidden'); }
+}
+
+function renderProfileModal() {
+  var cur = currentProfile();
+  var html = '<p class="profile-current-line">当前用户：' + (cur ? esc(cur.name) : '访客') + '</p>';
+  if (profileMode === 'create') {
+    html += '<input id="profileNameInput" class="text-input" type="text" maxlength="16" placeholder="昵称">' +
+      '<input id="profilePinInput" class="text-input" type="password" inputmode="numeric" maxlength="4" placeholder="4 位数字密码">' +
+      '<div class="profile-actions">' +
+      '<button class="btn primary" id="profileCreate" type="button">创建并进入</button>' +
+      '<button class="btn" id="profileBackLogin" type="button">返回登录</button>' +
+      '</div><p id="profileMsg" class="profile-msg"></p>';
+  } else {
+    var listHtml = profileList.length
+      ? profileList.map(function (p) {
+          return '<button class="profile-item' + (profileLoginTarget === p.id ? ' selected' : '') + (p.id === currentProfileId ? ' active' : '') + '" type="button" data-profile-id="' + p.id + '">' +
+            '<span class="profile-avatar"><i data-lucide="user"></i></span>' +
+            '<span class="profile-name">' + esc(p.name) + '</span>' +
+            (p.id === currentProfileId ? '<span class="profile-current">当前</span>' : '') +
+            '</button>';
+        }).join('')
+      : '<p class="muted">还没有进度档案</p>';
+    html += '<input id="profilePinInput" class="text-input" type="password" inputmode="numeric" maxlength="4" placeholder="4 位数字密码">' +
+      '<div class="profile-list">' + listHtml + '</div>' +
+      '<div class="profile-actions">' +
+      '<button class="btn primary" id="profileLogin" type="button">进入</button>' +
+      '<button class="btn" id="profileShowCreate" type="button">新建用户</button>' +
+      '</div><p id="profileMsg" class="profile-msg"></p>';
+  }
+  if (cur) {
+    html += '<button class="btn danger-ghost" id="profileLogout" type="button">退出登录</button>';
+  }
+  $('#profileBody').innerHTML = html;
+  lucide.createIcons();
+  bindProfileEvents();
+}
+
+function bindProfileEvents() {
+  var body = $('#profileBody');
+  Array.prototype.forEach.call(body.querySelectorAll('[data-profile-id]'), function (b) {
+    b.addEventListener('click', function () {
+      profileLoginTarget = b.dataset.profileId;
+      renderProfileModal();
+    });
+  });
+  var loginBtn = $('#profileLogin');
+  if (loginBtn) {
+    loginBtn.addEventListener('click', function () {
+      var pin = $('#profilePinInput').value;
+      var target = profileLoginTarget || (currentProfileId || '');
+      if (!target) { setProfileMsg('请先选择一个用户'); return; }
+      if (loginProfile(target, pin)) {
+        closeProfileModal();
+        renderTopbar();
+        showView(currentView);
+      } else {
+        setProfileMsg('密码不对，再试一次');
+      }
+    });
+  }
+  var createBtn = $('#profileCreate');
+  if (createBtn) {
+    createBtn.addEventListener('click', function () {
+      var name = $('#profileNameInput').value.trim();
+      var pin = $('#profilePinInput').value;
+      if (!name) { setProfileMsg('请填写昵称'); return; }
+      if (!/^\d{4}$/.test(pin)) { setProfileMsg('密码需要是 4 位数字'); return; }
+      createProfile(name, pin);
+      closeProfileModal();
+      renderTopbar();
+      showView(currentView);
+    });
+  }
+  var showCreate = $('#profileShowCreate');
+  if (showCreate) showCreate.addEventListener('click', function () { profileMode = 'create'; renderProfileModal(); });
+  var backLogin = $('#profileBackLogin');
+  if (backLogin) backLogin.addEventListener('click', function () { profileMode = 'login'; renderProfileModal(); });
+  var logout = $('#profileLogout');
+  if (logout) logout.addEventListener('click', function () {
+    logoutProfile();
+    renderProfileModal();
+    renderTopbar();
+    showView(currentView);
+  });
+}
+
 function bindStatic() {
   $$('.nav-btn').forEach(function (b) {
     b.addEventListener('click', function () { showView(b.dataset.view); });
+  });
+  $('#profileBtn').addEventListener('click', openProfileModal);
+  $('#profileClose').addEventListener('click', closeProfileModal);
+  $('#profileOverlay').addEventListener('click', function (e) {
+    if (e.target.id === 'profileOverlay') closeProfileModal();
   });
   $('#settingsBtn').addEventListener('click', openSettings);
   $('#settingsClose').addEventListener('click', closeSettings);
@@ -2270,14 +2492,18 @@ function bindStatic() {
     save();
   });
   $('#resetBtn').addEventListener('click', function () {
-    if (window.confirm('确定清空所有学习记录？')) {
-      localStorage.removeItem(LS_KEY);
-      window.location.reload();
+    if (window.confirm('确定清空当前用户的学习记录？')) {
+      if (currentProfileId) localStorage.removeItem(profileStateKey(currentProfileId));
+      state = defaultState();
+      save();
+      closeSettings();
+      showView(currentView);
     }
   });
   document.addEventListener('keydown', function (e) {
     if (e.key !== 'Escape') return;
     if (!$('#lessonOverlay').classList.contains('hidden')) closeOverlay();
+    else if (!$('#profileOverlay').classList.contains('hidden')) closeProfileModal();
     else if (!$('#settingsOverlay').classList.contains('hidden')) closeSettings();
   });
 }
