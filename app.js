@@ -1021,16 +1021,21 @@ function isUnlocked(id) {
 function speak(text) {
   try {
     if (!('speechSynthesis' in window)) return;
+    if (speechSynthesis.speaking) speechSynthesis.cancel();
+    var voices = speechSynthesis.getVoices();
+    if (!voices.length) {
+      try { speechSynthesis.onvoiceschanged = function () { speechSynthesis.getVoices(); }; } catch (e) {}
+    }
     var u = new SpeechSynthesisUtterance(text);
     u.lang = 'fr-FR';
-    u.rate = state.settings.rate;
-    var voices = speechSynthesis.getVoices();
+    u.rate = state.settings.rate || 0.9;
+    u.pitch = 1;
     for (var i = 0; i < voices.length; i++) {
       if (voices[i].lang && voices[i].lang.toLowerCase().indexOf('fr') === 0) {
         u.voice = voices[i]; break;
       }
     }
-    speechSynthesis.cancel();
+    speechSynthesis.resume();
     speechSynthesis.speak(u);
   } catch (err) {}
 }
