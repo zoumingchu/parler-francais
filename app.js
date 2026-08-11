@@ -1466,6 +1466,21 @@ function openSettings() {
   $('#settingRate').value = String(state.settings.rate);
   $('#rateValue').textContent = state.settings.rate + 'x';
   $('#settingFont').value = state.settings.font || 'default';
+  var installBtn = $('#installBtn');
+  var installHint = $('#installHint');
+  if (installBtn) installBtn.classList.remove('hidden');
+  if (installHint) {
+    installHint.classList.remove('hidden');
+    if (deferredInstall) {
+      installHint.textContent = '点击上方按钮即可安装为 App';
+    } else if (/iPhone|iPad|iPod/i.test(navigator.userAgent || '')) {
+      installHint.textContent = 'iPhone / iPad：用 Safari 打开，点分享按钮，选择“添加到主屏幕”';
+    } else if (/Android/i.test(navigator.userAgent || '')) {
+      installHint.textContent = 'Android：在浏览器菜单里选择“添加到主屏幕”或“安装应用”';
+    } else {
+      installHint.textContent = '电脑：在浏览器地址栏右侧点击安装图标，或使用 Chrome / Edge 打开';
+    }
+  }
   $('#settingsOverlay').classList.remove('hidden');
   $('#settingsOverlay').setAttribute('aria-hidden', 'false');
 }
