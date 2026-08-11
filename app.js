@@ -1473,17 +1473,26 @@ function openSettings() {
   $('#settingFont').value = state.settings.font || 'default';
   var installBtn = $('#installBtn');
   var installHint = $('#installHint');
-  if (installBtn) installBtn.classList.remove('hidden');
+  var isStandalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || !!navigator.standalone;
   if (installHint) {
     installHint.classList.remove('hidden');
-    if (deferredInstall) {
-      installHint.textContent = '点击上方按钮即可安装为 App';
-    } else if (/iPhone|iPad|iPod/i.test(navigator.userAgent || '')) {
-      installHint.textContent = 'iPhone / iPad：用 Safari 打开，点分享按钮，选择“添加到主屏幕”';
-    } else if (/Android/i.test(navigator.userAgent || '')) {
-      installHint.textContent = 'Android：在浏览器菜单里选择“添加到主屏幕”或“安装应用”';
-    } else {
-      installHint.textContent = '电脑：在浏览器地址栏右侧点击安装图标，或使用 Chrome / Edge 打开';
+    installHint.classList.remove('highlight');
+  }
+  if (isStandalone) {
+    if (installBtn) installBtn.classList.add('hidden');
+    if (installHint) installHint.textContent = '当前已以 App 方式运行';
+  } else {
+    if (installBtn) installBtn.classList.remove('hidden');
+    if (installHint) {
+      if (deferredInstall) {
+        installHint.textContent = '点击上方按钮即可安装为 App';
+      } else if (/iPhone|iPad|iPod/i.test(navigator.userAgent || '')) {
+        installHint.textContent = 'iPhone / iPad：请用 Safari 打开本页，点分享按钮，选择“添加到主屏幕”';
+      } else if (/Android/i.test(navigator.userAgent || '')) {
+        installHint.textContent = 'Android：请用 Chrome 打开本页，在菜单里选择“添加到主屏幕”或“安装应用”';
+      } else {
+        installHint.textContent = '电脑：在浏览器地址栏右侧点击安装图标，或使用 Chrome / Edge 打开';
+      }
     }
   }
   $('#settingsOverlay').classList.remove('hidden');
@@ -2648,7 +2657,14 @@ function bindStatic() {
   var installBtn = $('#installBtn');
   if (installBtn) {
     installBtn.addEventListener('click', function () {
-      if (!deferredInstall) return;
+      if (!deferredInstall) {
+        var h = $('#installHint');
+        if (h) {
+          h.classList.remove('hidden');
+          h.classList.add('highlight');
+        }
+        return;
+      }
       deferredInstall.prompt();
       deferredInstall.userChoice.then(function () {
         installBtn.classList.add('hidden');
