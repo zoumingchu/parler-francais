@@ -41,6 +41,7 @@
         <div class="topbar-meta">
           <span id="todayXp" class="pill"><i data-lucide="star"></i>今日 +0</span>
           <span id="streakPill" class="pill"><i data-lucide="flame"></i>0 天</span>
+          <button id="profileBtn" class="pill profile-pill" type="button" title="我的进度"><i data-lucide="user"></i><span id="profileName">访客</span></button>
           <button id="settingsBtn" class="icon-btn" type="button" title="设置" aria-label="设置"><i data-lucide="settings"></i></button>
         </div>
       </header>
@@ -70,6 +71,16 @@
     <div id="lessonBody" class="lesson-body"></div>
     <div class="lesson-footer">
       <button id="lessonContinue" class="btn primary" type="button">继续</button>
+    </div>
+  </div>
+
+  <div id="profileOverlay" class="modal-overlay hidden" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="profileTitle">
+      <div class="modal-head">
+        <h2 id="profileTitle">我的进度</h2>
+        <button id="profileClose" class="icon-btn" type="button" title="关闭" aria-label="关闭"><i data-lucide="x"></i></button>
+      </div>
+      <div id="profileBody" class="profile-body"></div>
     </div>
   </div>
 
