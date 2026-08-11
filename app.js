@@ -316,6 +316,91 @@ units.push({
       { fr: 'Avez-vous une chambre libre ?', zh: '你们有空房吗？', ipa: 'a.ve vu yn ʃɑ̃bʁ libʁ', tip: 'avez-vous 连读', ex: 'Avez-vous une chambre libre ?', exZh: '你们有空房吗？', words: ['Avez', 'vous', 'une', 'chambre', 'libre'] },
       { fr: 'Oui, au deuxième étage.', zh: '有的，在二楼。', ipa: 'wi o dø.zjɛm e.taʒ', tip: 'deuxième 读 dø.zjɛm', ex: 'Oui, au deuxième étage.', exZh: '有的，在二楼。', words: ['Oui', 'au', 'deuxième', 'étage'] },
       { fr: 'Merci beaucoup, à demain !', zh: '非常感谢，明天见！', ipa: 'mɛʁ.si bo.ku a də.mɛ̃', tip: 'à demain 读 a də.mɛ̃', ex: 'Merci beaucoup, à demain !', exZh: '非常感谢，明天见！', words: ['Merci', 'beaucoup', 'à', 'demain'] }
+    ] },
+    { id: 'l25', title: '谈论未来', icon: 'sparkles', phrase: true, items: [
+      { fr: 'je serai', zh: '我将是', ipa: 'ʒə sə.ʁɛ', tip: 'serai 读 sə.ʁɛ', ex: 'Je serai médecin un jour.', exZh: '我将来会成为医生。', words: ['Je', 'serai', 'médecin', 'un', 'jour'] },
+      { fr: 'nous irons', zh: '我们将去', ipa: 'nu zi.ʁɔ̃', tip: 'irons 读 i.ʁɔ̃', ex: 'Nous irons en France cet été.', exZh: '今年夏天我们将去法国。', words: ['Nous', 'irons', 'en', 'France', 'cet', 'été'] },
+      { fr: 'je ferai', zh: '我将做', ipa: 'ʒə fə.ʁɛ', tip: 'ferai 读 fə.ʁɛ', ex: 'Je ferai mes devoirs ce soir.', exZh: '我今晚会做作业。', words: ['Je', 'ferai', 'mes', 'devoirs', 'ce', 'soir'] },
+      { fr: 'il viendra', zh: '他会来', ipa: 'il vjɛ̃.dʁa', tip: 'viendra 读 vjɛ̃.dʁa', ex: 'Il viendra à la fête demain.', exZh: '他明天会来聚会。', words: ['Il', 'viendra', 'à', 'la', 'fête', 'demain'] },
+      { fr: 'dans le futur', zh: '在未来', ipa: 'dɑ̃ lə fy.tyʁ', tip: 'futur 读 fy.tyʁ', ex: 'Dans le futur, tout sera différent.', exZh: '在未来，一切都会不同。', words: ['Dans', 'le', 'futur', 'tout', 'sera', 'différent'] },
+      { fr: 'peut-être', zh: '也许', ipa: 'pø.tɛtʁ', tip: 'peut-être 读 pø.tɛtʁ', ex: 'Peut-être que je partirai à Paris.', exZh: '也许我会去巴黎。', words: ['Peut-être', 'que', 'je', 'partirai', 'à', 'Paris'] }
+    ] }
+  ]
+});
+
+units.push({
+  id: 'u6', num: '6', title: '商务与社交', subtitle: '职场、电话、会议与聚会',
+  color: '#6a8f4e', soft: '#e9f2e3',
+  lessons: [
+    { id: 'l26', title: '工作介绍', icon: 'briefcase', phrase: true, items: [
+      { fr: 'le métier', zh: '职业', ipa: 'lə me.tje', tip: 'métier 读 me.tje', ex: 'Quel est votre métier ?', exZh: '您从事什么职业？', words: ['Quel', 'est', 'votre', 'métier'] },
+      { fr: "l'entreprise", zh: '公司', ipa: 'lɑ̃.tʁə.pʁiz', tip: 'entreprise 有鼻音', ex: "Elle travaille dans une grande entreprise.", exZh: '她在一家大公司工作。', words: ['Elle', 'travaille', 'dans', 'une', 'grande', 'entreprise'] },
+      { fr: 'le collègue', zh: '同事', ipa: 'lə kɔ.lɛɡ', tip: 'collègue 读 kɔ.lɛɡ', ex: 'Mes collègues sont très sympas.', exZh: '我的同事都很好。', words: ['Mes', 'collègues', 'sont', 'très', 'sympas'] },
+      { fr: 'le rendez-vous', zh: '会面 / 预约', ipa: 'lə ʁɑ̃.de vu', tip: 'rendez-vous 连读', ex: "J'ai un rendez-vous à dix heures.", exZh: '我十点有个会面。', words: ["J'ai", 'un', 'rendez-vous', 'à', 'dix', 'heures'] },
+      { fr: 'le chef', zh: '主管', ipa: 'lə ʃɛf', tip: 'chef 读 ʃɛf', ex: 'Le chef est en déplacement.', exZh: '主管出差了。', words: ['Le', 'chef', 'est', 'en', 'déplacement'] },
+      { fr: 'travailler ensemble', zh: '一起工作', ipa: 'tʁa.va.je ɑ̃.sɑ̃bl', tip: 'ensemble 有鼻音', ex: 'Nous travaillons ensemble sur ce projet.', exZh: '我们一起做这个项目。', words: ['Nous', 'travaillons', 'ensemble', 'sur', 'ce', 'projet'] }
+    ] },
+    { id: 'l27', title: '电话与预约', icon: 'phone', phrase: true, items: [
+      { fr: 'téléphoner', zh: '打电话', ipa: 'te.le.fɔ.ne', tip: 'é 读长一点', ex: 'Je dois téléphoner au client.', exZh: '我需要给客户打电话。', words: ['Je', 'dois', 'téléphoner', 'au', 'client'] },
+      { fr: 'la ligne', zh: '线路', ipa: 'la liɲ', tip: 'igne 读 iɲ', ex: 'La ligne est occupée.', exZh: '线路占线。', words: ['La', 'ligne', 'est', 'occupée'] },
+      { fr: 'laisser un message', zh: '留言', ipa: 'le.se œ̃ me.saʒ', tip: 'laisser 读 le.se', ex: 'Puis-je laisser un message ?', exZh: '我可以留言吗？', words: ['Puis-je', 'laisser', 'un', 'message'] },
+      { fr: 'rappeler', zh: '回电', ipa: 'ʁa.pə.le', tip: 'pp 读 p', ex: 'Je vous rappelle demain matin.', exZh: '我明早给您回电。', words: ['Je', 'vous', 'rappelle', 'demain', 'matin'] },
+      { fr: 'prendre rendez-vous', zh: '预约', ipa: 'pʁɑ̃dʁ ʁɑ̃.de vu', tip: 'prendre 有鼻音', ex: 'Je voudrais prendre rendez-vous avec le docteur.', exZh: '我想和医生预约。', words: ['Je', 'voudrais', 'prendre', 'rendez-vous', 'avec', 'le', 'docteur'] },
+      { fr: 'disponible', zh: '有空的', ipa: 'dis.po.nibl', tip: 'disponible 读 dis.po.nibl', ex: 'Êtes-vous disponible jeudi ?', exZh: '您周四有空吗？', words: ['Êtes', 'vous', 'disponible', 'jeudi'] }
+    ] },
+    { id: 'l28', title: '会议与邮件', icon: 'mail', phrase: true, items: [
+      { fr: 'le dossier', zh: '文件', ipa: 'lə dɔ.sje', tip: 'ossier 读 ɔ.sje', ex: "J'ai préparé le dossier pour la réunion.", exZh: '我准备好了会议文件。', words: ["J'ai", 'préparé', 'le', 'dossier', 'pour', 'la', 'réunion'] },
+      { fr: "l'ordre du jour", zh: '议程', ipa: 'lɔʁdʁ dy ʒuʁ', tip: "l'ordre 连读", ex: "L'ordre du jour est très chargé.", exZh: '议程排得很满。', words: ["L'ordre", 'du', 'jour', 'est', 'très', 'chargé'] },
+      { fr: 'envoyer un e-mail', zh: '发邮件', ipa: 'ɑ̃.vwa.je œ̃ i.mɛjl', tip: 'envoyer 读 ɑ̃.vwa.je', ex: 'Je vais envoyer un e-mail au service.', exZh: '我要给部门发邮件。', words: ['Je', 'vais', 'envoyer', 'un', 'e-mail', 'au', 'service'] },
+      { fr: 'la pièce jointe', zh: '附件', ipa: 'la pjɛs ʒwɛ̃t', tip: 'jointe 读 ʒwɛ̃t', ex: 'Veuillez trouver la pièce jointe.', exZh: '请查收附件。', words: ['Veuillez', 'trouver', 'la', 'pièce', 'jointe'] },
+      { fr: 'répondre', zh: '回复', ipa: 'ʁe.pɔ̃dʁ', tip: 'on 有鼻音', ex: 'Je dois répondre à ce message.', exZh: '我需要回复这条消息。', words: ['Je', 'dois', 'répondre', 'à', 'ce', 'message'] },
+      { fr: 'la date limite', zh: '截止日期', ipa: 'la dat li.mit', tip: 'limite 读 li.mit', ex: 'La date limite est vendredi.', exZh: '截止日期是周五。', words: ['La', 'date', 'limite', 'est', 'vendredi'] }
+    ] },
+    { id: 'l29', title: '社交聚会', icon: 'party-popper', phrase: true, items: [
+      { fr: "l'invitation", zh: '邀请', ipa: 'lɛ̃.vi.ta.sjɔ̃', tip: 'tion 读 sjɔ̃', ex: "Merci pour ton invitation !", exZh: '谢谢你的邀请！', words: ['Merci', 'pour', 'ton', 'invitation'] },
+      { fr: 'la fête', zh: '聚会', ipa: 'la fɛt', tip: 'fête 读 fɛt', ex: 'La fête commence à vingt heures.', exZh: '聚会晚上八点开始。', words: ['La', 'fête', 'commence', 'à', 'vingt', 'heures'] },
+      { fr: 'apporter', zh: '带来', ipa: 'a.pɔʁ.te', tip: 'apporter 读 a.pɔʁ.te', ex: 'Je vais apporter un dessert.', exZh: '我会带一份甜点。', words: ['Je', 'vais', 'apporter', 'un', 'dessert'] },
+      { fr: 'rencontrer', zh: '认识', ipa: 'ʁɑ̃.kɔ̃.tʁe', tip: '两个鼻音', ex: 'Je suis content de rencontrer tes amis.', exZh: '我很高兴认识你的朋友们。', words: ['Je', 'suis', 'content', 'de', 'rencontrer', 'tes', 'amis'] },
+      { fr: 'discuter', zh: '聊天', ipa: 'dis.ky.te', tip: 'discuter 读 dis.ky.te', ex: 'On a discuté toute la soirée.', exZh: '我们聊了一整晚。', words: ['On', 'a', 'discuté', 'toute', 'la', 'soirée'] },
+      { fr: "s'amuser", zh: '玩得开心', ipa: 'sa.my.ze', tip: "s'amuser 读 sa.my.ze", ex: 'Amusez-vous bien à la fête !', exZh: '祝你们在聚会上玩得开心！', words: ['Amusez', 'vous', 'bien', 'à', 'la', 'fête'] }
+    ] }
+  ]
+});
+
+units.push({
+  id: 'u7', num: '7', title: '文化与兴趣', subtitle: '音乐电影、运动健康与阅读学习',
+  color: '#c85f7a', soft: '#f9e4ea',
+  lessons: [
+    { id: 'l30', title: '音乐电影', icon: 'music', phrase: true, items: [
+      { fr: 'la musique', zh: '音乐', ipa: 'la my.zik', tip: 'musique 读 my.zik', ex: "J'écoute de la musique française.", exZh: '我听法语音乐。', words: ["J'écoute", 'de', 'la', 'musique', 'française'] },
+      { fr: 'le film', zh: '电影', ipa: 'lə film', tip: 'film 读 film', ex: 'Ce film est très populaire.', exZh: '这部电影很受欢迎。', words: ['Ce', 'film', 'est', 'très', 'populaire'] },
+      { fr: 'le chanteur', zh: '歌手', ipa: 'lə ʃɑ̃.tœʁ', tip: 'chanteur 读 ʃɑ̃.tœʁ', ex: 'Ce chanteur a une belle voix.', exZh: '这位歌手嗓音很好。', words: ['Ce', 'chanteur', 'a', 'une', 'belle', 'voix'] },
+      { fr: 'la chanson', zh: '歌曲', ipa: 'la ʃɑ̃.sɔ̃', tip: '两个鼻音', ex: "C'est ma chanson préférée.", exZh: '这是我最喜欢的歌。', words: ["C'est", 'ma', 'chanson', 'préférée'] },
+      { fr: 'la séance', zh: '场次', ipa: 'la se.ɑ̃s', tip: 'séance 读 se.ɑ̃s', ex: 'La séance commence à huit heures.', exZh: '场次八点开始。', words: ['La', 'séance', 'commence', 'à', 'huit', 'heures'] },
+      { fr: 'intéressant', zh: '有趣的', ipa: 'ɛ̃.te.ʁe.sɑ̃', tip: 'intéressant 有鼻音', ex: 'Ce documentaire est très intéressant.', exZh: '这部纪录片很有趣。', words: ['Ce', 'documentaire', 'est', 'très', 'intéressant'] }
+    ] },
+    { id: 'l31', title: '运动健康', icon: 'dumbbell', phrase: true, items: [
+      { fr: 'le sport', zh: '运动', ipa: 'lə spɔʁ', tip: 'sport 读 spɔʁ', ex: 'Je fais du sport trois fois par semaine.', exZh: '我每周运动三次。', words: ['Je', 'fais', 'du', 'sport', 'trois', 'fois', 'par', 'semaine'] },
+      { fr: 'la santé', zh: '健康', ipa: 'la sɑ̃.te', tip: 'santé 有鼻音', ex: 'La santé est très importante.', exZh: '健康非常重要。', words: ['La', 'santé', 'est', 'très', 'importante'] },
+      { fr: 'faire de la natation', zh: '游泳', ipa: 'fɛʁ də la na.ta.sjɔ̃', tip: 'natation 读 na.ta.sjɔ̃', ex: 'Elle fait de la natation le samedi.', exZh: '她周六游泳。', words: ['Elle', 'fait', 'de', 'la', 'natation', 'le', 'samedi'] },
+      { fr: 'le vélo', zh: '自行车', ipa: 'lə ve.lo', tip: 'vélo 读 ve.lo', ex: 'Je vais au travail à vélo.', exZh: '我骑自行车上班。', words: ['Je', 'vais', 'au', 'travail', 'à', 'vélo'] },
+      { fr: 'manger sainement', zh: '健康饮食', ipa: 'mɑ̃.ʒe sɛn.mɑ̃', tip: 'sainement 读 sɛn.mɑ̃', ex: 'Il essaie de manger sainement.', exZh: '他尽量健康饮食。', words: ['Il', 'essaie', 'de', 'manger', 'sainement'] },
+      { fr: 'se reposer', zh: '休息', ipa: 'sə ʁə.po.ze', tip: 'reposer 读 ʁə.po.ze', ex: 'Tu dois te reposer un peu.', exZh: '你需要休息一下。', words: ['Tu', 'dois', 'te', 'reposer', 'un', 'peu'] }
+    ] },
+    { id: 'l32', title: '阅读与学习', icon: 'book-open', phrase: true, items: [
+      { fr: 'le livre', zh: '书', ipa: 'lə livʁ', tip: 'livre 读 livʁ', ex: 'Je lis un livre en français.', exZh: '我在读一本法语书。', words: ['Je', 'lis', 'un', 'livre', 'en', 'français'] },
+      { fr: 'la grammaire', zh: '语法', ipa: 'la ɡʁa.mɛʁ', tip: 'grammaire 读 ɡʁa.mɛʁ', ex: 'La grammaire française est difficile.', exZh: '法语语法很难。', words: ['La', 'grammaire', 'française', 'est', 'difficile'] },
+      { fr: 'le vocabulaire', zh: '词汇', ipa: 'lə vɔ.ka.by.lɛʁ', tip: 'vocabulaire 读 vɔ.ka.by.lɛʁ', ex: "J'apprends dix mots de vocabulaire par jour.", exZh: '我每天学十个单词。', words: ["J'apprends", 'dix', 'mots', 'de', 'vocabulaire', 'par', 'jour'] },
+      { fr: "l'exercice", zh: '练习', ipa: 'lɛɡ.zɛʁ.sis', tip: "l'exercice 读 lɛɡ.zɛʁ.sis", ex: 'Fais cet exercice à la maison.', exZh: '在家做这个练习。', words: ['Fais', 'cet', 'exercice', 'à', 'la', 'maison'] },
+      { fr: 'la page', zh: '页', ipa: 'la paʒ', tip: 'page 读 paʒ', ex: 'Ouvre le livre à la page dix.', exZh: '把书翻到第十页。', words: ['Ouvre', 'le', 'livre', 'à', 'la', 'page', 'dix'] },
+      { fr: 'progresser', zh: '进步', ipa: 'pʁɔ.ɡʁe.se', tip: 'progresser 读 pʁɔ.ɡʁe.se', ex: 'Tu progresses très vite !', exZh: '你进步很快！', words: ['Tu', 'progresses', 'très', 'vite'] }
+    ] },
+    { id: 'l33', title: '过渡 · 综合文化对话', icon: 'messages-square', transition: true, items: [
+      { fr: 'Tu aimes le cinéma français ?', zh: '你喜欢法国电影吗？', ipa: 'ty ɛm lə si.ne.ma fʁɑ̃.sɛ', tip: 'cinéma 读 si.ne.ma', ex: 'Tu aimes le cinéma français ?', exZh: '你喜欢法国电影吗？', words: ['Tu', 'aimes', 'le', 'cinéma', 'français'] },
+      { fr: "Oui, j'adore les comédies.", zh: '喜欢，我超爱喜剧片。', ipa: 'wi ʒa.dɔʁ le kɔ.me.di', tip: "j'adore 读 ʒa.dɔʁ", ex: "Oui, j'adore les comédies.", exZh: '喜欢，我超爱喜剧片。', words: ['Oui', "j'adore", 'les', 'comédies'] },
+      { fr: 'Quel est ton film préféré ?', zh: '你最喜欢的电影是哪部？', ipa: 'kɛl ɛ tɔ̃ film pʁe.fe.ʁe', tip: 'préféré 三个 é', ex: 'Quel est ton film préféré ?', exZh: '你最喜欢的电影是哪部？', words: ['Quel', 'est', 'ton', 'film', 'préféré'] },
+      { fr: "Le Fabuleux Destin d'Amélie Poulain.", zh: '《天使爱美丽》。', ipa: 'lə fa.by.lø dɛs.tɛ̃ da.me.li pu.lɛ̃', tip: "d'Amélie 连读", ex: "Le Fabuleux Destin d'Amélie Poulain.", exZh: '《天使爱美丽》。', words: ['Le', 'Fabuleux', 'Destin', "d'Amélie", 'Poulain'] },
+      { fr: 'On va le regarder ensemble ?', zh: '我们一起看吧？', ipa: 'ɔ̃ va lə ʁə.ɡaʁ.de ɑ̃.sɑ̃bl', tip: 'ensemble 有鼻音', ex: 'On va le regarder ensemble ?', exZh: '我们一起看吧？', words: ['On', 'va', 'le', 'regarder', 'ensemble'] }
     ] }
   ]
 });
@@ -1131,9 +1216,12 @@ function renderCourses() {
 
 function renderPractice() {
   var modes = [
-    { mode: 'quiz', icon: 'zap', color: '#e4573d', soft: '#fde8e3', title: '快速测验', desc: '8 道混合题型，巩固词汇' },
+    { mode: 'quiz', icon: 'zap', color: '#e4573d', soft: '#fde8e3', title: '快速测验', desc: '10 道混合题型，巩固词汇' },
     { mode: 'listen', icon: 'headphones', color: '#3f7fd6', soft: '#e3edfb', title: '听力挑战', desc: '6 道听音选义，磨耳朵' },
-    { mode: 'match', icon: 'shuffle', color: '#0d9488', soft: '#ddf3ef', title: '配对练习', desc: '4 组法汉配对，练反应' }
+    { mode: 'sentence', icon: 'message-circle', color: '#0d9488', soft: '#ddf3ef', title: '句子挑战', desc: '8 道句子理解题' },
+    { mode: 'spell', icon: 'type', color: '#d96c9f', soft: '#fce7f0', title: '拼写挑战', desc: '8 道单词拼写题' },
+    { mode: 'speak', icon: 'mic', color: '#6a8f4e', soft: '#e9f2e3', title: '跟读挑战', desc: '4 句跟读练习' },
+    { mode: 'match', icon: 'shuffle', color: '#d99a2b', soft: '#fbf0d9', title: '配对练习', desc: '4 组法汉配对，练反应' }
   ];
   var html = modes.map(function (m) {
     return '<button class="practice-card" type="button" data-mode="' + m.mode + '">' +
@@ -1709,12 +1797,21 @@ function openLesson(id) {
 function startPractice(mode) {
   var steps;
   if (mode === 'quiz') {
-    var qItems = shuffle(allWords).slice(0, 8);
-    var qTypes = ['choice', 'choiceFr', 'type', 'listen'];
+    var qItems = shuffle(allWords).slice(0, 10);
+    var qTypes = ['choice', 'choiceFr', 'type', 'listen', 'choice'];
     steps = qItems.map(function (it, i) { return { type: qTypes[i % 4], item: it }; });
   } else if (mode === 'listen') {
     var lItems = shuffle(allWords).slice(0, 6);
     steps = lItems.map(function (it) { return { type: 'listen', item: it }; });
+  } else if (mode === 'sentence') {
+    var sItems = shuffle(allWords.filter(function (w) { return w.ex; })).slice(0, 8);
+    steps = sItems.map(function (it) { return { type: 'sentenceChoice', item: it }; });
+  } else if (mode === 'spell') {
+    var pItems = shuffle(allWords).slice(0, 8);
+    steps = pItems.map(function (it) { return { type: 'type', item: it }; });
+  } else if (mode === 'speak') {
+    var kItems = shuffle(allWords.filter(function (w) { return w.ex; })).slice(0, 4);
+    steps = kItems.map(function (it) { return { type: 'speak', item: it }; });
   } else {
     var pairs = shuffle(allWords).slice(0, 4).map(function (w) {
       return { id: w.id, fr: w.fr, zh: w.zh };
