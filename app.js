@@ -282,6 +282,44 @@ extraLessons.forEach(function (el) {
   unit.lessons.splice(idx + 1, 0, el.lesson);
 });
 
+units.push({
+  id: 'u5', num: '5', title: '进阶法语', subtitle: '过去时、愿望与观点表达',
+  color: '#d96c9f', soft: '#fce7f0',
+  lessons: [
+    { id: 'l21', title: '谈论过去', icon: 'history', phrase: true, items: [
+      { fr: 'hier soir', zh: '昨晚', ipa: 'jɛʁ swaʁ', tip: 'soir 读 swaʁ', ex: 'Hier soir, nous avons regardé un film.', exZh: '昨晚我们看了一部电影。', words: ['Hier', 'soir', 'nous', 'avons', 'regardé', 'un', 'film'] },
+      { fr: "j'ai mangé", zh: '我吃了', ipa: 'ʒɛ mɑ̃.ʒe', tip: "j'ai 连读", ex: "J'ai mangé une pizza avec mes amis.", exZh: '我和朋友们吃了披萨。', words: ["J'ai", 'mangé', 'une', 'pizza', 'avec', 'mes', 'amis'] },
+      { fr: "c'était", zh: '那是（过去时）', ipa: 'se.tɛ', tip: "c'était 读 se.tɛ", ex: "C'était un très bon moment.", exZh: '那是一个非常美好的时刻。', words: ["C'était", 'un', 'très', 'bon', 'moment'] },
+      { fr: "je suis allé(e)", zh: '我去了', ipa: 'ʒə sɥi za.le', tip: '注意性数配合', ex: 'Je suis allé au marché ce matin.', exZh: '我今天早上去市场了。', words: ['Je', 'suis', 'allé', 'au', 'marché', 'ce', 'matin'] },
+      { fr: 'il y avait', zh: '曾经有', ipa: 'i lja.vɛ', tip: 'y avait 连读', ex: 'Il y avait beaucoup de monde.', exZh: '当时有很多人。', words: ['Il', 'y', 'avait', 'beaucoup', 'de', 'monde'] },
+      { fr: "j'ai adoré", zh: '我非常喜欢', ipa: 'ʒɛ a.dɔ.ʁe', tip: 'adoré 读 a.dɔ.ʁe', ex: "J'ai adoré ce voyage.", exZh: '我太喜欢这次旅行了。', words: ["J'ai", 'adoré', 'ce', 'voyage'] }
+    ] },
+    { id: 'l22', title: '愿望与计划', icon: 'sparkles', phrase: true, items: [
+      { fr: 'je voudrais', zh: '我想要', ipa: 'ʒə vu.dʁɛ', tip: 'drais 读 dʁɛ', ex: 'Je voudrais apprendre le chinois.', exZh: '我想学中文。', words: ['Je', 'voudrais', 'apprendre', 'le', 'chinois'] },
+      { fr: 'je vais', zh: '我将要', ipa: 'ʒə vɛ', tip: 'vais 读 vɛ', ex: 'Je vais voyager en France.', exZh: '我将去法国旅行。', words: ['Je', 'vais', 'voyager', 'en', 'France'] },
+      { fr: 'je pourrai', zh: '我将能够', ipa: 'ʒə pu.ʁɛ', tip: 'pourrai 读 pu.ʁɛ', ex: 'Je pourrai parler français bientôt.', exZh: '我很快就能说法语了。', words: ['Je', 'pourrai', 'parler', 'français', 'bientôt'] },
+      { fr: "j'espère", zh: '我希望', ipa: 'ʒɛs.pɛʁ', tip: "j'espère 读 ʒɛs.pɛʁ", ex: "J'espère te revoir.", exZh: '我希望再见到你。', words: ["J'espère", 'te', 'revoir'] },
+      { fr: 'demain matin', zh: '明早', ipa: 'də.mɛ̃ ma.tɛ̃', tip: '两个鼻音', ex: 'Demain matin, je vais faire du sport.', exZh: '明早我要去运动。', words: ['Demain', 'matin', 'je', 'vais', 'faire', 'du', 'sport'] },
+      { fr: 'plus tard', zh: '以后', ipa: 'ply taʁ', tip: 'plus 读 ply', ex: 'On se verra plus tard.', exZh: '我们以后见。', words: ['On', 'se', 'verra', 'plus', 'tard'] }
+    ] },
+    { id: 'l23', title: '意见与感受', icon: 'heart', phrase: true, items: [
+      { fr: 'je pense que', zh: '我认为', ipa: 'ʒə pɑ̃s kə', tip: 'pense 读 pɑ̃s', ex: "Je pense que c'est une bonne idée.", exZh: '我认为这是个好主意。', words: ['Je', 'pense', 'que', "c'est", 'une', 'bonne', 'idée'] },
+      { fr: 'à mon avis', zh: '在我看来', ipa: 'a mɔ̃ na.vi', tip: 'mon avis 连读', ex: 'À mon avis, ce film est génial.', exZh: '在我看来，这部电影很棒。', words: ['À', 'mon', 'avis', 'ce', 'film', 'est', 'génial'] },
+      { fr: 'je suis content(e)', zh: '我很开心', ipa: 'ʒə sɥi kɔ̃.tɑ̃', tip: '注意性数配合', ex: 'Je suis très content de te voir.', exZh: '见到你我非常开心。', words: ['Je', 'suis', 'très', 'content', 'de', 'te', 'voir'] },
+      { fr: 'je suis fatigué(e)', zh: '我累了', ipa: 'ʒə sɥi fa.ti.ɡe', tip: 'fatigué 读 fa.ti.ɡe', ex: 'Je suis fatigué après le travail.', exZh: '工作后我很累。', words: ['Je', 'suis', 'fatigué', 'après', 'le', 'travail'] },
+      { fr: 'ça me plaît', zh: '我很喜欢', ipa: 'sa mə plɛ', tip: 'plaît 读 plɛ', ex: 'Ça me plaît beaucoup.', exZh: '我非常喜欢这个。', words: ['Ça', 'me', 'plaît', 'beaucoup'] },
+      { fr: "ça m'énerve", zh: '让我烦', ipa: 'sa me.nɛʁv', tip: "m'énerve 读 me.nɛʁv", ex: "Ça m'énerve quand il pleut.", exZh: '下雨让我烦。', words: ['Ça', "m'énerve", 'quand', 'il', 'pleut'] }
+    ] },
+    { id: 'l24', title: '过渡 · 综合对话', icon: 'messages-square', transition: true, items: [
+      { fr: 'Bonjour, bienvenue en France !', zh: '你好，欢迎来到法国！', ipa: 'bɔ̃.ʒuʁ bjɛ̃.və.ny ɑ̃ fʁɑ̃s', tip: 'bienvenue 读 bjɛ̃.və.ny', ex: 'Bonjour, bienvenue en France !', exZh: '你好，欢迎来到法国！', words: ['Bonjour', 'bienvenue', 'en', 'France'] },
+      { fr: 'Je voudrais réserver une chambre.', zh: '我想订一个房间。', ipa: 'ʒə vu.dʁɛ ʁe.zɛʁ.ve yn ʃɑ̃bʁ', tip: 'réserver 读 ʁe.zɛʁ.ve', ex: 'Je voudrais réserver une chambre.', exZh: '我想订一个房间。', words: ['Je', 'voudrais', 'réserver', 'une', 'chambre'] },
+      { fr: 'Avez-vous une chambre libre ?', zh: '你们有空房吗？', ipa: 'a.ve vu yn ʃɑ̃bʁ libʁ', tip: 'avez-vous 连读', ex: 'Avez-vous une chambre libre ?', exZh: '你们有空房吗？', words: ['Avez', 'vous', 'une', 'chambre', 'libre'] },
+      { fr: 'Oui, au deuxième étage.', zh: '有的，在二楼。', ipa: 'wi o dø.zjɛm e.taʒ', tip: 'deuxième 读 dø.zjɛm', ex: 'Oui, au deuxième étage.', exZh: '有的，在二楼。', words: ['Oui', 'au', 'deuxième', 'étage'] },
+      { fr: 'Merci beaucoup, à demain !', zh: '非常感谢，明天见！', ipa: 'mɛʁ.si bo.ku a də.mɛ̃', tip: 'à demain 读 a də.mɛ̃', ex: 'Merci beaucoup, à demain !', exZh: '非常感谢，明天见！', words: ['Merci', 'beaucoup', 'à', 'demain'] }
+    ] }
+  ]
+});
+
 var allWords = [];
 var allLessons = [];
 units.forEach(function (u) {
@@ -813,7 +851,7 @@ var hfLimit = 200;
 var hfQuery = '';
 var lookupQuery = '';
 
-var viewTitles = { learn: '学习', practice: '练习', words: '单词本', lookup: '查单词', stats: '统计' };
+var viewTitles = { learn: '学习', courses: '课程', practice: '练习', words: '单词本', lookup: '查单词', stats: '统计' };
 
 function showView(name) {
   currentView = name;
@@ -825,6 +863,7 @@ function showView(name) {
   });
   renderTopbar();
   if (name === 'learn') renderLearn();
+  if (name === 'courses') renderCourses();
   if (name === 'practice') renderPractice();
   if (name === 'words') renderWords();
   if (name === 'lookup') renderLookup();
@@ -866,15 +905,8 @@ function findNextLesson() {
   return null;
 }
 
-function renderLearn() {
-  var pct = Math.min(100, Math.round(state.dailyXp / DAILY_GOAL * 100));
-  var next = findNextLesson();
-  var ring = 106.8 - (pct / 100) * 106.8;
-  var heroBtn = next
-    ? '<button class="btn primary lg" type="button" data-open="' + next.id + '"><i data-lucide="arrow-right"></i>继续探险</button>'
-    : '<div class="status done" style="display:flex;align-items:center;gap:8px;font-weight:600"><i data-lucide="badge-check"></i>所有课程已完成</div>';
-
-  var unitsHtml = units.map(function (u) {
+function buildUnitsHtml() {
+  return units.map(function (u) {
     var lessonsHtml = u.lessons.map(function (l) {
       var done = !!(state.lessons[l.id] && state.lessons[l.id].done);
       var locked = !isUnlocked(l.id);
@@ -897,6 +929,16 @@ function renderLearn() {
       '<div><h2>' + esc(u.title) + '</h2><p>' + esc(u.subtitle) + '</p></div>' +
       '</div><div class="lesson-grid">' + lessonsHtml + '</div></section>';
   }).join('');
+}
+
+function renderLearn() {
+  var pct = Math.min(100, Math.round(state.dailyXp / DAILY_GOAL * 100));
+  var next = findNextLesson();
+  var ring = 106.8 - (pct / 100) * 106.8;
+  var heroBtn = next
+    ? '<button class="btn primary lg" type="button" data-open="' + next.id + '"><i data-lucide="arrow-right"></i>继续探险</button>'
+    : '<div class="status done" style="display:flex;align-items:center;gap:8px;font-weight:600"><i data-lucide="badge-check"></i>所有课程已完成</div>';
+
 
   var placementLvl = placementLevel();
   var placementStatus = placementLvl >= 4 ? '已解锁全部课程' : placementLvl === 3 ? '已解锁前三个单元' : placementLvl === 2 ? '已解锁前两个单元' : placementLvl === 1 ? '已解锁第一单元' : '跳过已掌握内容';
@@ -910,6 +952,11 @@ function renderLearn() {
     '<button class="btn primary" type="button" data-test="placement">' + (placementLvl >= 2 ? '重新测试' : '开始测试') + '</button>' +
     '</section>';
   var quickLookupHtml = '<div class="quick-lookup"><i data-lucide="search"></i><input id="quickLookup" type="search" placeholder="查一个法语单词" autocomplete="off"></div>';
+  var coursesEntryHtml = '<section class="courses-entry">' +
+    '<div class="courses-entry-icon"><i data-lucide="book-marked"></i></div>' +
+    '<div class="courses-entry-copy"><h3>全部课程</h3><p class="muted">' + allLessons.length + ' 门课 · 由易到难递进</p></div>' +
+    '<button class="btn primary" type="button" data-courses="1"><i data-lucide="arrow-right"></i>查看课程</button>' +
+    '</section>';
 
   $('#view-learn').innerHTML =
     '<section class="learn-band">' +
@@ -926,7 +973,7 @@ function renderLearn() {
     '<span>' + pct + '%</span></div>' +
     '</section>' +
     placementBandHtml +
-    '<div class="learn-units">' + unitsHtml + '</div>';
+    coursesEntryHtml;
 
   lucide.createIcons();
   $$('#view-learn [data-open]').forEach(function (b) {
@@ -934,6 +981,9 @@ function renderLearn() {
   });
   $$('#view-learn [data-test="placement"]').forEach(function (b) {
     b.addEventListener('click', startPlacement);
+  });
+  $$('#view-learn [data-courses]').forEach(function (b) {
+    b.addEventListener('click', function () { showView('courses'); });
   });
   var quickInput = $('#quickLookup');
   if (quickInput) {
@@ -944,6 +994,16 @@ function renderLearn() {
       }
     });
   }
+}
+
+function renderCourses() {
+  $('#view-courses').innerHTML =
+    '<div class="words-head"><h2>全部课程</h2><span class="muted">' + allLessons.length + ' 门课 · 难度逐级提升</span></div>' +
+    '<div class="learn-units">' + buildUnitsHtml() + '</div>';
+  lucide.createIcons();
+  $$('#view-courses [data-open]').forEach(function (b) {
+    b.addEventListener('click', function () { openLesson(b.dataset.open); });
+  });
 }
 
 function renderPractice() {
