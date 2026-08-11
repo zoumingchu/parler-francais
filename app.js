@@ -1064,6 +1064,16 @@ function renderLearn() {
     '<button class="btn primary" type="button" data-test="placement">' + (placementLvl >= 2 ? '重新测试' : '开始测试') + '</button>' +
     '</section>';
   var quickLookupHtml = '<div class="quick-lookup"><i data-lucide="search"></i><input id="quickLookup" type="search" placeholder="查一个法语单词" autocomplete="off"></div>';
+  var nextUnit = next ? units.find(function (u) { return u.id === next.unitId; }) : null;
+  var unlockedCount = 0;
+  for (var ui = 0; ui < allLessons.length; ui++) {
+    if (isUnlocked(allLessons[ui].id)) unlockedCount++;
+  }
+  var nextCard = next ? '<section class="next-lesson">' +
+    '<div class="next-lesson-icon" style="--lc:' + (nextUnit ? nextUnit.color : '#e4573d') + ';--lc-soft:' + (nextUnit ? nextUnit.soft : '#fde8e3') + '"><i data-lucide="' + next.icon + '"></i></div>' +
+    '<div class="next-lesson-copy"><p class="eyebrow">下一课</p><h3>' + esc(next.title) + '</h3><p class="muted">' + (nextUnit ? esc(nextUnit.title) : '') + ' · 已解锁 ' + unlockedCount + ' / ' + allLessons.length + ' 课</p></div>' +
+    '<button class="btn primary" type="button" data-open="' + next.id + '"><i data-lucide="play"></i>开始</button>' +
+    '</section>' : '';
   var coursesEntryHtml = '<section class="courses-entry">' +
     '<div class="courses-entry-icon"><i data-lucide="book-marked"></i></div>' +
     '<div class="courses-entry-copy"><h3>全部课程</h3><p class="muted">' + allLessons.length + ' 门课 · 由易到难递进</p></div>' +
@@ -1084,6 +1094,7 @@ function renderLearn() {
     '<circle class="ring-fg" cx="22" cy="22" r="17" fill="none" style="stroke-dasharray:106.8;stroke-dashoffset:' + ring + '"></circle></svg>' +
     '<span>' + pct + '%</span></div>' +
     '</section>' +
+    nextCard +
     placementBandHtml +
     coursesEntryHtml;
 
