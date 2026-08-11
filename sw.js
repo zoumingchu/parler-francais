@@ -1,4 +1,4 @@
-const CACHE = 'parler-v1';
+const CACHE = 'parler-v2';
 const ASSETS = ['./', './index.html', './app.css', './app.js', './highfreq.js', './vocab-ext.js', './vendor/lucide.min.js', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png'];
 self.addEventListener('install', function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) { return c.addAll(ASSETS); }).then(function () { return self.skipWaiting(); }));
@@ -10,11 +10,13 @@ self.addEventListener('activate', function (e) {
 });
 self.addEventListener('fetch', function (e) {
   if (e.request.method !== 'GET') return;
-  e.respondWith(caches.match(e.request).then(function (cached) {
-    return cached || fetch(e.request).then(function (res) {
-      var copy = res.clone();
-      caches.open(CACHE).then(function (c) { c.put(e.request, copy); });
-      return res;
-    }).catch(function () { return caches.match('./index.html'); });
+  e.respondWith(fetch(e.request).then(function (res) {
+    var copy = res.clone();
+    caches.open(CACHE).then(function (c) { c.put(e.request, copy); });
+    return res;
+  }).catch(function () {
+    return caches.match(e.request).then(function (cached) {
+      return cached || caches.match('./index.html');
+    });
   }));
 });
