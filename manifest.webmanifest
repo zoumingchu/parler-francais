@@ -1,0 +1,22 @@
+{
+  "name": "Parler 法语学习",
+  "short_name": "Parler",
+  "description": "可爱的法语学习 App：课程、句子、跟读、查单词与词库",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f3ee",
+  "theme_color": "#e4573d",
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
