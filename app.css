@@ -887,3 +887,18 @@ button { font: inherit; color: inherit; }
   .courses-entry { flex-wrap: wrap; }
   .courses-entry .btn { width: 100%; }
 }
+
+.profile-pill { cursor: pointer; }
+.profile-pill:hover { border-color: var(--accent-4); color: var(--ink); }
+.profile-body { display: flex; flex-direction: column; gap: 12px; }
+.profile-current-line { font-size: 14px; color: var(--ink-soft); margin: 0; }
+.profile-list { display: flex; flex-direction: column; gap: 8px; max-height: 260px; overflow: auto; }
+.profile-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); cursor: pointer; text-align: left; }
+.profile-item.selected { border-color: var(--accent-4); background: rgba(63, 127, 214, .08); }
+.profile-item.active { border-color: var(--accent-2); }
+.profile-avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--surface-2); display: flex; align-items: center; justify-content: center; color: var(--ink-soft); flex: none; }
+.profile-avatar svg { width: 16px; height: 16px; }
+.profile-name { flex: 1; font-weight: 600; }
+.profile-current { font-size: 12px; color: var(--accent-2); }
+.profile-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.profile-msg { color: var(--bad); font-size: 13px; margin: 0; min-height: 18px; }
