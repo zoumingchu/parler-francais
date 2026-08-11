@@ -902,3 +902,22 @@ button { font: inherit; color: inherit; }
 .profile-current { font-size: 12px; color: var(--accent-2); }
 .profile-actions { display: flex; gap: 10px; flex-wrap: wrap; }
 .profile-msg { color: var(--bad); font-size: 13px; margin: 0; min-height: 18px; }
+
+.next-lesson {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 22px 0 6px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 8px;
+}
+.next-lesson-icon { width: 44px; height: 44px; border-radius: 8px; background: var(--lc-soft); color: var(--lc); display: flex; align-items: center; justify-content: center; flex: none; }
+.next-lesson-icon svg { width: 22px; height: 22px; }
+.next-lesson-copy { flex: 1; min-width: 0; }
+.next-lesson-copy h3 { margin: 0 0 2px; font-size: 16px; }
+@media (max-width: 560px) {
+  .next-lesson { flex-wrap: wrap; }
+  .next-lesson .btn { width: 100%; }
+}
