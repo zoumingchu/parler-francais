@@ -922,7 +922,8 @@ button { font: inherit; color: inherit; }
   .next-lesson .btn { width: 100%; }
 }
 
-body { font-family: var(--app-font), "Segoe UI", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif; }
+:root { --app-font: "Segoe UI", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif; }
+body { font-family: var(--app-font); }
 .setting-select {
   height: 38px;
   border: 1px solid var(--line);
