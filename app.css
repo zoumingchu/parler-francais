@@ -921,3 +921,22 @@ button { font: inherit; color: inherit; }
   .next-lesson { flex-wrap: wrap; }
   .next-lesson .btn { width: 100%; }
 }
+
+body { font-family: var(--app-font), "Segoe UI", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif; }
+.setting-select {
+  height: 38px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  padding: 0 10px;
+  font: inherit;
+}
+.install-hint { font-size: 12px; margin: 0; }
+.learn-band { background: #fff9f2; border-radius: 8px; padding: 28px 22px; margin-top: 22px; border: 1px solid #f3e2cf; }
+.lesson-card { box-shadow: 0 4px 14px rgba(43, 39, 34, .05); }
+.lesson-card:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(43, 39, 34, .09); }
+.lesson-icon { border: 1px solid rgba(43, 39, 34, .05); }
+.big-word { background: #fff8ef; border-color: #f3d9a4; box-shadow: 0 10px 26px rgba(217, 154, 43, .14); }
+.mascot { width: 92px; height: 92px; }
+.practice-card:hover { transform: translateY(-2px); }
