@@ -941,3 +941,5 @@ body { font-family: var(--app-font); }
 .big-word { background: #fff8ef; border-color: #f3d9a4; box-shadow: 0 10px 26px rgba(217, 154, 43, .14); }
 .mascot { width: 92px; height: 92px; }
 .practice-card:hover { transform: translateY(-2px); }
+
+.install-hint.highlight { color: var(--accent); font-weight: 600; }
