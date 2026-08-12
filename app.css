@@ -943,3 +943,10 @@ body { font-family: var(--app-font); }
 .practice-card:hover { transform: translateY(-2px); }
 
 .install-hint.highlight { color: var(--accent); font-weight: 600; }
+
+.profile-avatar { color: #fff; font-weight: 700; }
+.profile-item { cursor: pointer; }
+.profile-del { width: 30px; height: 30px; border: 0; background: transparent; color: var(--ink-soft); cursor: pointer; display: flex; align-items: center; justify-content: center; border-radius: 8px; flex: none; }
+.profile-del:hover { color: var(--bad); background: rgba(214, 69, 69, .08); }
+.profile-del svg { width: 15px; height: 15px; }
+.profile-note { font-size: 12px; color: var(--ink-soft); margin: 0; }
