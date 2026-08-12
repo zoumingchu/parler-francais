@@ -120,6 +120,20 @@
             <option value="kai">楷体</option>
           </select>
         </div>
+        <div class="cloud-block">
+          <p class="cloud-title">GitHub 云同步</p>
+          <input id="cloudToken" class="text-input" type="password" placeholder="GitHub 令牌（ghp_...）">
+          <div class="profile-actions">
+            <button id="cloudUpload" class="btn" type="button">上传当前进度</button>
+            <button id="cloudDownload" class="btn" type="button">下载云端进度</button>
+          </div>
+          <label class="setting-row">
+            <span>自动同步</span>
+            <input id="cloudAuto" type="checkbox">
+          </label>
+          <p id="cloudMsg" class="cloud-msg"></p>
+          <p class="profile-note">令牌只保存在本机浏览器；进度会存到你的 GitHub 私有 Gist</p>
+        </div>
         <button id="installBtn" class="btn" type="button"><i data-lucide="download"></i>安装为 App</button>
         <p id="installHint" class="muted install-hint"></p>
         <button id="resetBtn" class="btn danger-ghost" type="button">清空学习记录</button>
