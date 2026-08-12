@@ -863,7 +863,8 @@ function loginProfile(id, pin) {
 function createProfile(name, pin) {
   var meta = loadProfilesMeta();
   var id = 'p' + Date.now().toString(36) + Math.floor(Math.random() * 1e6).toString(36);
-  meta.profiles.push({ id: id, name: name, pin: hashPin(pin), createdAt: Date.now() });
+  var colors = ['#e4573d', '#0d9488', '#3f7fd6', '#d99a2b', '#c85f7a', '#6a8f4e'];
+  meta.profiles.push({ id: id, name: name, pin: hashPin(pin), color: colors[meta.profiles.length % colors.length], createdAt: Date.now() });
   profileList = meta.profiles;
   switchToProfile(id);
   return id;
@@ -2557,35 +2558,109 @@ function renderProfileModal() {
   var cur = currentProfile();
   var html = '<p class="profile-current-line">当前用户：' + (cur ? esc(cur.name) : '访客') + '</p>';
   if (profileMode === 'create') {
-    html += '<input id="profileNameInput" class="text-input" type="text" maxlength="16" placeholder="昵称">' +
-      '<input id="profilePinInput" class="text-input" type="password" inputmode="numeric" maxlength="4" placeholder="4 位数字密码">' +
+    html += '<input id="profileNameInput" class="text-input" type="text" maxlength="16" placeholder="用户名 / 昵称">' +
+      '<input id="profilePinInput" class="text-input" type="password" maxlength="20" placeholder="密码（至少 4 位）">' +
       '<div class="profile-actions">' +
       '<button class="btn primary" id="profileCreate" type="button">创建并进入</button>' +
       '<button class="btn" id="profileBackLogin" type="button">返回登录</button>' +
       '</div><p id="profileMsg" class="profile-msg"></p>';
   } else {
     var listHtml = profileList.length
-      ? profileList.map(function (p) {
-          return '<button class="profile-item' + (profileLoginTarget === p.id ? ' selected' : '') + (p.id === currentProfileId ? ' active' : '') + '" type="button" data-profile-id="' + p.id + '">' +
-            '<span class="profile-avatar"><i data-lucide="user"></i></span>' +
+      ? '<div class="profile-list">' + profileList.map(function (p) {
+          var color = p.color || '#e4573d';
+          return '<div class="profile-item' + (profileLoginTarget === p.id ? ' selected' : '') + (p.id === currentProfileId ? ' active' : '') + '" data-profile-id="' + p.id + '">' +
+            '<span class="profile-avatar" style="background:' + color + '">' + esc(String(p.name || '?').slice(0, 1).toUpperCase()) + '</span>' +
             '<span class="profile-name">' + esc(p.name) + '</span>' +
             (p.id === currentProfileId ? '<span class="profile-current">当前</span>' : '') +
-            '</button>';
-        }).join('')
-      : '<p class="muted">还没有进度档案</p>';
-    html += '<input id="profilePinInput" class="text-input" type="password" inputmode="numeric" maxlength="4" placeholder="4 位数字密码">' +
-      '<div class="profile-list">' + listHtml + '</div>' +
+            '<button class="profile-del" type="button" data-profile-del="' + p.id + '" title="删除账号"><i data-lucide="trash-2"></i></button>' +
+            '</div>';
+        }).join('') + '</div>'
+      : '<p class="muted">还没有账号</p>';
+    html += '<input id="profilePinInput" class="text-input" type="password" maxlength="20" placeholder="密码">' +
+      listHtml +
       '<div class="profile-actions">' +
       '<button class="btn primary" id="profileLogin" type="button">进入</button>' +
-      '<button class="btn" id="profileShowCreate" type="button">新建用户</button>' +
-      '</div><p id="profileMsg" class="profile-msg"></p>';
+      '<button class="btn" id="profileShowCreate" type="button">新建账号</button>' +
+      '<button class="btn" id="profileExport" type="button">导出进度</button>' +
+      '<button class="btn" id="profileImport" type="button">导入进度</button>' +
+      '</div>' +
+      '<input id="profileImportFile" class="hidden" type="file" accept=".json,application/json">' +
+      '<p class="profile-note">进度保存在本机；换设备时用「导出 / 导入进度」搬运</p>' +
+      '<p id="profileMsg" class="profile-msg"></p>';
   }
-  if (cur) {
-    html += '<button class="btn danger-ghost" id="profileLogout" type="button">退出登录</button>';
-  }
+  if (cur) html += '<button class="btn danger-ghost" id="profileLogout" type="button">退出登录</button>';
   $('#profileBody').innerHTML = html;
   lucide.createIcons();
   bindProfileEvents();
+}
+
+function exportProfile() {
+  var p = currentProfile();
+  if (!p) { setProfileMsg('请先登录一个账号'); return; }
+  try {
+    var data = { app: 'parler', version: 1, profile: { name: p.name, createdAt: p.createdAt }, state: state };
+    var blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'parler-' + (p.name || 'progress') + '.json';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
+    setProfileMsg('进度已导出，保存这个文件即可');
+  } catch (err) {
+    setProfileMsg('导出失败，请重试');
+  }
+}
+
+function importProfileFile(file) {
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function () {
+    try {
+      var data = JSON.parse(reader.result);
+      if (!data || data.app !== 'parler' || !data.state) throw new Error('bad');
+      var importedName = (data.profile && data.profile.name) || '导入用户';
+      if (!currentProfileId) createProfile(importedName, '0000');
+      state = Object.assign(defaultState(), data.state || {});
+      state.settings = Object.assign({ autoSpeak: true, sound: true, rate: 0.9, font: 'default' }, state.settings || {});
+      state.lessons = state.lessons || {};
+      state.words = state.words || {};
+      state.history = state.history || {};
+      if (!state.placement) state.placement = { best: 0, takenAt: null };
+      save();
+      closeProfileModal();
+      renderTopbar();
+      showView(currentView);
+    } catch (err) {
+      setProfileMsg('导入失败：文件格式不对');
+    }
+  };
+  reader.readAsText(file);
+}
+
+function deleteProfile(id) {
+  var p = null;
+  for (var i = 0; i < profileList.length; i++) {
+    if (profileList[i].id === id) { p = profileList[i]; break; }
+  }
+  if (!p) return;
+  if (!window.confirm('确定删除账号「' + p.name + '」和它的全部进度吗？')) return;
+  try { localStorage.removeItem(profileStateKey(id)); } catch (e) {}
+  var meta = loadProfilesMeta();
+  meta.profiles = meta.profiles.filter(function (x) { return x.id !== id; });
+  if (meta.current === id) meta.current = null;
+  saveProfilesMeta(meta);
+  profileList = meta.profiles;
+  if (currentProfileId === id) {
+    currentProfileId = null;
+    state = defaultState();
+    save();
+  }
+  renderProfileModal();
+  renderTopbar();
+  showView(currentView);
 }
 
 function bindProfileEvents() {
@@ -2596,12 +2671,18 @@ function bindProfileEvents() {
       renderProfileModal();
     });
   });
+  Array.prototype.forEach.call(body.querySelectorAll('[data-profile-del]'), function (b) {
+    b.addEventListener('click', function (e) {
+      e.stopPropagation();
+      deleteProfile(b.dataset.profileDel);
+    });
+  });
   var loginBtn = $('#profileLogin');
   if (loginBtn) {
     loginBtn.addEventListener('click', function () {
       var pin = $('#profilePinInput').value;
       var target = profileLoginTarget || (currentProfileId || '');
-      if (!target) { setProfileMsg('请先选择一个用户'); return; }
+      if (!target) { setProfileMsg('请先选择一个账号'); return; }
       if (loginProfile(target, pin)) {
         closeProfileModal();
         renderTopbar();
@@ -2616,8 +2697,8 @@ function bindProfileEvents() {
     createBtn.addEventListener('click', function () {
       var name = $('#profileNameInput').value.trim();
       var pin = $('#profilePinInput').value;
-      if (!name) { setProfileMsg('请填写昵称'); return; }
-      if (!/^\d{4}$/.test(pin)) { setProfileMsg('密码需要是 4 位数字'); return; }
+      if (!name) { setProfileMsg('请填写用户名'); return; }
+      if (pin.length < 4) { setProfileMsg('密码至少需要 4 位'); return; }
       createProfile(name, pin);
       closeProfileModal();
       renderTopbar();
@@ -2628,6 +2709,17 @@ function bindProfileEvents() {
   if (showCreate) showCreate.addEventListener('click', function () { profileMode = 'create'; renderProfileModal(); });
   var backLogin = $('#profileBackLogin');
   if (backLogin) backLogin.addEventListener('click', function () { profileMode = 'login'; renderProfileModal(); });
+  var exportBtn = $('#profileExport');
+  if (exportBtn) exportBtn.addEventListener('click', exportProfile);
+  var importBtn = $('#profileImport');
+  var importFile = $('#profileImportFile');
+  if (importBtn && importFile) {
+    importBtn.addEventListener('click', function () { importFile.click(); });
+    importFile.addEventListener('change', function () {
+      if (importFile.files && importFile.files[0]) importProfileFile(importFile.files[0]);
+      importFile.value = '';
+    });
+  }
   var logout = $('#profileLogout');
   if (logout) logout.addEventListener('click', function () {
     logoutProfile();
