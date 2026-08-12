@@ -1,5 +1,5 @@
 const CACHE = 'parler-v2';
-const ASSETS = ['./', './index.html', './app.css', './app.js', './highfreq.js', './vocab-ext.js', './vendor/lucide.min.js', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png'];
+const ASSETS = ['./', './index.html', './app.css', './app.js', './highfreq.js', './vocab-ext.js', './audio-map.js', './vendor/lucide.min.js', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png'];
 self.addEventListener('install', function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) { return c.addAll(ASSETS); }).then(function () { return self.skipWaiting(); }));
 });
