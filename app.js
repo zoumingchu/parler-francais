@@ -1018,7 +1018,24 @@ function isUnlocked(id) {
   return !!(prev && prev.done);
 }
 
+function audioKey(s) {
+  return String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[’'‘-]/g, '').replace(/\s+/g, ' ').trim();
+}
+
 function speak(text) {
+  try {
+    var map = window.PARLER_AUDIO || {};
+    var key = audioKey(text);
+    if (map[key]) {
+      var audio = new Audio(map[key]);
+      audio.play().catch(function () { speakTTS(text); });
+      return;
+    }
+  } catch (err) {}
+  speakTTS(text);
+}
+
+function speakTTS(text) {
   try {
     if (!('speechSynthesis' in window)) return;
     if (speechSynthesis.speaking) speechSynthesis.cancel();
