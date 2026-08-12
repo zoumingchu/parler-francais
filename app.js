@@ -725,7 +725,7 @@ function defaultState() {
     words: {},
     history: {},
     placement: { best: 0, takenAt: null },
-    settings: { autoSpeak: true, sound: true, rate: 0.9, font: 'default' }
+    settings: { autoSpeak: true, sound: true, rate: 0.9, font: 'default', cloudToken: '', cloudAuto: false }
   };
 }
 
@@ -815,6 +815,7 @@ function applyFont() {
   document.documentElement.style.setProperty('--app-font', opt.stack || 'inherit');
 }
 
+var cloudSaveTimer = null;
 function save() {
   try {
     if (currentProfileId) {
@@ -823,6 +824,10 @@ function save() {
       localStorage.setItem(LS_KEY, JSON.stringify(state));
     }
   } catch (err) {}
+  if (state.settings && state.settings.cloudToken && state.settings.cloudAuto && currentProfileId) {
+    if (cloudSaveTimer) clearTimeout(cloudSaveTimer);
+    cloudSaveTimer = setTimeout(function () { uploadProgress(true); }, 1800);
+  }
 }
 
 function currentProfile() {
@@ -877,6 +882,62 @@ function logoutProfile() {
   currentProfileId = null;
   state = defaultState();
   save();
+}
+
+function cloudMsg(text) {
+  var m = $('#cloudMsg');
+  if (m) m.textContent = text;
+}
+
+function uploadProgress(silent) {
+  var token = state.settings && state.settings.cloudToken;
+  if (!token) { if (!silent) cloudMsg('请先填写 GitHub 令牌'); return; }
+  if (!currentProfileId) { if (!silent) cloudMsg('请先登录一个账号'); return; }
+  var gistKey = 'parler-gist-' + currentProfileId;
+  var gistId = localStorage.getItem(gistKey);
+  var payload = {
+    description: 'Parler 学习进度',
+    public: false,
+    files: { 'parler-state.json': { content: JSON.stringify(state) } }
+  };
+  var url = gistId ? 'https://api.github.com/gists/' + gistId : 'https://api.github.com/gists';
+  fetch(url, {
+    method: gistId ? 'PATCH' : 'POST',
+    headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json', 'Accept': 'application/vnd.github+json' },
+    body: JSON.stringify(payload)
+  }).then(function (res) { return res.json(); }).then(function (data) {
+    if (data && data.id) {
+      localStorage.setItem(gistKey, data.id);
+      if (!silent) cloudMsg('进度已上传到云端');
+    } else {
+      if (!silent) cloudMsg('上传失败：' + ((data && data.message) || '请检查令牌'));
+    }
+  }).catch(function () { if (!silent) cloudMsg('上传失败：网络错误'); });
+}
+
+function downloadProgress() {
+  var token = state.settings && state.settings.cloudToken;
+  if (!token) { cloudMsg('请先填写 GitHub 令牌'); return; }
+  if (!currentProfileId) { cloudMsg('请先登录一个账号'); return; }
+  var gistId = localStorage.getItem('parler-gist-' + currentProfileId);
+  if (!gistId) { cloudMsg('云端还没有这个账号的进度，请先上传'); return; }
+  fetch('https://api.github.com/gists/' + gistId, {
+    headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github+json' }
+  }).then(function (res) { return res.json(); }).then(function (data) {
+    var file = data && data.files && data.files['parler-state.json'];
+    if (!file || !file.content) throw new Error('bad');
+    var parsed = JSON.parse(file.content);
+    state = Object.assign(defaultState(), parsed);
+    state.settings = Object.assign({ autoSpeak: true, sound: true, rate: 0.9, font: 'default' }, state.settings || {});
+    state.lessons = state.lessons || {};
+    state.words = state.words || {};
+    state.history = state.history || {};
+    if (!state.placement) state.placement = { best: 0, takenAt: null };
+    save();
+    cloudMsg('已下载云端进度');
+    renderTopbar();
+    showView(currentView);
+  }).catch(function () { cloudMsg('下载失败：请检查令牌或先上传'); });
 }
 
 function $(sel) { return document.querySelector(sel); }
@@ -1489,6 +1550,10 @@ function openSettings() {
   $('#settingRate').value = String(state.settings.rate);
   $('#rateValue').textContent = state.settings.rate + 'x';
   $('#settingFont').value = state.settings.font || 'default';
+  $('#cloudToken').value = (state.settings && state.settings.cloudToken) || '';
+  $('#cloudAuto').checked = !!(state.settings && state.settings.cloudAuto);
+  var cm = $('#cloudMsg');
+  if (cm) cm.textContent = '';
   var installBtn = $('#installBtn');
   var installHint = $('#installHint');
   var isStandalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || !!navigator.standalone;
@@ -2761,6 +2826,16 @@ function bindStatic() {
   $('#settingFont').addEventListener('change', function (e) {
     state.settings.font = e.target.value;
     applyFont();
+    save();
+  });
+  $('#cloudToken').addEventListener('input', function (e) {
+    state.settings.cloudToken = e.target.value.trim();
+    save();
+  });
+  $('#cloudUpload').addEventListener('click', function () { uploadProgress(false); });
+  $('#cloudDownload').addEventListener('click', downloadProgress);
+  $('#cloudAuto').addEventListener('change', function (e) {
+    state.settings.cloudAuto = e.target.checked;
     save();
   });
   var installBtn = $('#installBtn');
