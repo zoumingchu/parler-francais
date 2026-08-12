@@ -950,3 +950,7 @@ body { font-family: var(--app-font); }
 .profile-del:hover { color: var(--bad); background: rgba(214, 69, 69, .08); }
 .profile-del svg { width: 15px; height: 15px; }
 .profile-note { font-size: 12px; color: var(--ink-soft); margin: 0; }
+
+.cloud-block { border-top: 1px solid var(--line); padding-top: 14px; display: flex; flex-direction: column; gap: 10px; }
+.cloud-title { font-size: 13px; font-weight: 700; color: var(--ink-soft); margin: 0; }
+.cloud-msg { font-size: 12px; color: var(--accent-2); margin: 0; min-height: 16px; }
